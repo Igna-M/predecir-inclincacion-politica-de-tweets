@@ -7,7 +7,7 @@ UPLOAD_FOLDER = 'static/uploads'
 # pd.options.mode.chained_assignment = None  # default='warn'
 
 application = Flask(__name__)
-app = application
+# app = application
 # app.secret_key = b'{\xef~\x17\xe9\xc3\xd0\x1d\x806F\xb2\xc9\xed\xf9!\x91\xc5\xf0\x0f!\xde\x97V'
 # app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -69,7 +69,7 @@ if __name__ == '__main__':
 
 ### PARA ENCENDER: 
 # source venv/bin/activate
-# python3 application.py
+# python3 main.py
 
 ## PARA DESCONECTAR:
 # deactivate
