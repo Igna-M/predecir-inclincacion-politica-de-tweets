@@ -69,7 +69,7 @@ if __name__ == '__main__':
 
 ### PARA ENCENDER: 
 # source venv/bin/activate
-# python3 main.py
+# python3 app.py
 
 ## PARA DESCONECTAR:
 # deactivate
