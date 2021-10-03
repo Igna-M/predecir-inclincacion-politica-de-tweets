@@ -6,7 +6,7 @@ import pickle
 UPLOAD_FOLDER = 'static/uploads'
 # pd.options.mode.chained_assignment = None  # default='warn'
 
-application = Flask(__name__)
+app = Flask(__name__)
 # app = application
 # app.secret_key = b'{\xef~\x17\xe9\xc3\xd0\x1d\x806F\xb2\xc9\xed\xf9!\x91\xc5\xf0\x0f!\xde\x97V'
 # app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -41,7 +41,7 @@ def predict():
 
         tweet = request.form['tweet']
         
-        print(tweet)
+        
 
     pred = model.predict(vectorizer.transform([tweet]))[0]
     
@@ -49,9 +49,6 @@ def predict():
         bloque = 'Juntos por el Cambio'
     else:
         bloque = 'Frente de Todos'
-
-    print ("predicted class:", pred)
-
 
     return render_template('predict.html', bloque=bloque)
 
