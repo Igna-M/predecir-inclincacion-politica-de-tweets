@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/style.css') }}">
+    <!-- <link rel="shortcut icon" href="{{ url_for('static', filename='images/brazil-flag-round-250.png') }}"> -->
+    <title>Precios inmobiliarios</title>
+</head>
+<body>
+    
+    <div class="titulos-index">
+        <h3>Predictor de tendencia política según el texto de un tweet</h3>
+
+    </div>
+
+    <div class="">
+
+        <div class="form-inicial">
+
+            <form action="/predict" method="POST">
+
+                <div class="">
+                    <label>Tweet:</label>
+                    <input type="text" name="tweet" id="tweet" placeholder="ingresa el texto de un tweet">
+                </div>
+
+                <input type="submit" value="Enviar">
+
+            </form>
+
+        </div>
+    </div>
+    
+    
+    
+    
+
+
+</body>
+</html>
