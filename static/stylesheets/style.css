@@ -67,7 +67,7 @@ form{
 
 .tweet-input label{
   font-size: 1.6rem;
-  padding: 2px;
+  padding: 5px;
 }
 
 .tweet-input textarea{
@@ -76,7 +76,7 @@ form{
   border-radius: 5px;
   border: var(--color_04) solid 2px;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  margin: 5px;
+  margin: 10px 5px;
   font-size: 1.1rem;
   background: var(--color_06);
   color: var(--color_02);
@@ -97,19 +97,21 @@ textarea:focus {
 
 .btn {
   border: none;
-  background-color: var(--color_01b);
+  background-color: var(--color_01);
   color: #fff;
-  padding: 10px 15px;
+  padding: 20px 15px;
   cursor: pointer;
   border-radius: 5px;
-  width: 60%;
-  border: var(--color_01b) solid 1px;
+  width: 50%;
+  border: var(--color_04) solid 1px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   font-size: 1.5rem;
   transition: all 0.5s ease;
+  margin: 10px auto;
 }
 
 .btn:hover {
-  background-color:var(--color_09);
+  background-color:var(--color_01b);
   border: white solid 1px;
 }
 
@@ -125,20 +127,48 @@ textarea:focus {
 
 .boton-a{
   border: none;
-  background-color: var(--color_01b);
+  background-color: var(--color_01);
   color: #fff;
   padding: 15px 25px;
   cursor: pointer;
   border-radius: 5px;
   width: 100%;
   border: var(--color_04) solid 1px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   font-size: 1.3rem;
   transition: all 0.5s ease;
   margin: 40px auto 10px;
 }
 
 .boton-a:hover {
-  background-color:var(--color_09);
+  background-color:var(--color_01b);
   border: white solid 1px;
 }
 
+
+
+.mostrar-resultado{
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mostrar-imagen{
+  /* position: relative; */
+  box-shadow: 1px 2px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  background-color: var(--white-color);
+  overflow: scroll;
+  padding: 20px;
+  width: 90%;
+  /* width: 300px;
+  height: 400px; */
+  margin: 5px;
+  cursor: pointer;
+  margin: 20PX auto;
+}
+
+.mostrar-image img{
+  object-fit: cover;
+}

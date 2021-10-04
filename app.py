@@ -56,16 +56,17 @@ def predict():
 
 
     cleaned_tweet = limpiar_tweets(tweet)
-    print(cleaned_tweet)
-
     pred = model.predict(vectorizer.transform([cleaned_tweet]))[0]
     
     if pred == 0:
         bloque = 'Juntos por el Cambio'
+        imagen = '../static/images/juntos-por-el-cambio-blanco-sm.png'
+
     else:
         bloque = 'Frente de Todos'
+        imagen = '../static/images/frente_de_todostodos_blanco.png'
 
-    return render_template('predict.html', bloque=bloque)
+    return render_template('partido-politico-probable.html', bloque=bloque, imagen=imagen)
 
 
 
