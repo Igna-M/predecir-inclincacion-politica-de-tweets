@@ -1,9 +1,11 @@
 from flask import Flask, jsonify, render_template, url_for, request, redirect, send_file, Response, make_response
 import pickle
+import unidecode
+import re
 
 
 
-UPLOAD_FOLDER = 'static/uploads'
+# UPLOAD_FOLDER = 'static/uploads'
 # pd.options.mode.chained_assignment = None  # default='warn'
 
 app = Flask(__name__)
@@ -20,19 +22,29 @@ with open('pickle/vectorizer.pickle', 'rb') as v:
 
 
 
+
+
+
+
+
 @app.route('/', methods=['POST', 'GET'])
 def inicio():
 
-    mensaje = 'Ingresa el texto de un tweet'
 
 
-
-
-    return render_template('inicio.html', mensaje=mensaje)
+    return render_template('inicio.html')
 
 
 @app.route('/predict', methods=['POST', 'GET'])
 def predict():
+
+    def limpiar_tweets(tweet):
+        t_lower_no_accents=unidecode.unidecode(tweet.lower()); # sacamos acentos y llevamos a minuscula
+        t_lower_no_accents_no_punkt=re.sub(r'([^\s\w]|_)+','',t_lower_no_accents); # quitamos signos de puntuacion usando una regex que reemplaza todo lo q no sean espacios o palabras por un string vacio
+        t_no_new_line = t_lower_no_accents_no_punkt.replace('\n', ' ')
+        t_remove_http = re.sub(r'http\S+', '', t_no_new_line).strip()
+        x = re.sub("(.)\\1{2,}", "\\1", t_remove_http)
+        return x
 
     global vectorizer
     global model
@@ -40,10 +52,13 @@ def predict():
     if request.method == 'POST':
 
         tweet = request.form['tweet']
-        
-        
 
-    pred = model.predict(vectorizer.transform([tweet]))[0]
+
+
+    cleaned_tweet = limpiar_tweets(tweet)
+    print(cleaned_tweet)
+
+    pred = model.predict(vectorizer.transform([cleaned_tweet]))[0]
     
     if pred == 0:
         bloque = 'Juntos por el Cambio'
@@ -60,7 +75,7 @@ def predict():
 
 ######## Para que corra en mi compu ########
 if __name__ == '__main__':
-    app.run(debug=True, port=7000)
+    app.run(debug=True, port=7001)
 
 
 
