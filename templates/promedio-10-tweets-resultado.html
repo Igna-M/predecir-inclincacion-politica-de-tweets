@@ -11,10 +11,15 @@
     <div class="titulos-index">
         <h2>Es probable que el tweet pertenezca a:</h2>
         <div>
-            <h3>Tweet Original:</h3>
             <div class="tweet-original">
-                <p>{{ tweet }}</p>
+                <h3>Tweets originales:</h3>
+                {% for i in range(len_tweets) %}
+                    <p># {{ i + 1 }}</p>
+                    <p>{{ tweets[i] }}</p>
+                {% endfor %}
             </div>
+
+            <h3>Los tweets analizados tienen una tendencia del {{ '%0.2f'|format(grado|float) }}% hacia {{ bloque }}</h3>
         </div>
     </div>
 

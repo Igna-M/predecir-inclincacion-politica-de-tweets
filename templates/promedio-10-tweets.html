@@ -10,26 +10,30 @@
 <body>
     
     <div class="titulos-index">
-        <h2>Predictor de tendencia política según el texto de un tweet</h2>
+        <h2>Predictor de tendencia política promedio de hasta 10 tweet</h2>
+        <h3>Si tienes menos de 10 tweets, dejá los que sobre en blanco</h3>
 
     </div>
 
     <div class="container">
 
-        <form action="/predict" method="POST">
+        <form action="/predecir-promedio-10-tweets" method="POST">
 
-            <div class="tweet-input">
-                <label>Tweet:</label>
-                <textarea type="text" name="tweet" id="tweet" placeholder="ingresa el texto de un tweet"></textarea>
-                
-            </div>
+            {% for i in range(1, 11) %}
+
+                <div class="tweet-input">
+                    <label for="tweet{{i}}">Tweet #{{i}}:</label>
+                    <textarea type="text" name="tweet{{i}}" id="tweet{{i}}" placeholder="ingresa el texto de un tweet"></textarea>
+                </div>
+
+            {% endfor %} 
 
             <input class="btn" type="submit" value="Enviar">
 
         </form>
 
         <div class="botones-links">
-            <a href="/promedio-10-tweets"><p class="boton-a">Promedio de 10 tweets</p></a>
+            <a href="/"><p class="boton-a">Analizar un tweet</p></a>
         </div>
     </div>
     
