@@ -22,7 +22,11 @@ with open('pickle/vectorizer.pickle', 'rb') as v:
 
 
 
+with open('pickle/model_canciones.pickle', 'rb') as f:
+    model_canciones = pickle.load(f)
 
+with open('pickle/vectorizer_canciones.pickle', 'rb') as v:
+    vectorizer_canciones = pickle.load(v)
 
 
 
@@ -95,18 +99,11 @@ def mean_10_tweets_predict():
 
     if request.method == 'POST':
 
-        print('')
-        print('')
-
         todos_los_tweets = []
         for i in range(1, 11):
             tweet = request.form['tweet' + str(i)]
             if len(tweet) > 0:
                 todos_los_tweets.append(tweet)
-
-        print('')
-        print(todos_los_tweets)
-        print('')
 
         valoracion_de_tweets = []
         for j in range(len(todos_los_tweets)):
@@ -140,9 +137,61 @@ def mean_10_tweets_predict():
 
 
 
+
+@app.route('/versos', methods=['POST', 'GET'])
+def versos():
+
+
+
+    return render_template('versos.html')
+
+
+
+@app.route('/predict-verso', methods=['POST', 'GET'])
+def predict_verso():
+
+    def limpiar_texto(texto):
+        t_lower_no_accents=unidecode.unidecode(texto.lower()); # sacamos acentos y llevamos a minuscula
+        t_lower_no_accents_no_punkt=re.sub(r'([^\s\w]|_)+','',t_lower_no_accents); # quitamos signos de puntuacion usando una regex que reemplaza todo lo q no sean espacios o palabras por un string vacio
+        t_no_new_line = t_lower_no_accents_no_punkt.replace('\n', ' ')
+        t_remove_http = re.sub(r'http\S+', '', t_no_new_line).strip()
+        x = re.sub("(.)\\1{2,}", "\\1", t_remove_http)
+        return x
+
+    global vectorizer_canciones
+    global model_canciones
+
+    if request.method == 'POST':
+
+        verso = request.form['verso']
+
+
+    verso_clean = limpiar_texto(verso)
+    pred = model_canciones.predict(vectorizer_canciones.transform([verso_clean]))[0]
+    
+
+    if pred == 0:
+        artista = 'Calamaro'
+        imagen = '../static/images/calamaro.jpeg'
+
+    elif pred == 1:
+        artista = 'Spinetta'
+        imagen = '../static/images/spinetta.jpeg'
+
+    else:
+        bloque = 'Shakira'
+        imagen = '../static/images/shakira.jpeg'
+
+    return render_template('artista.html', artista=artista, imagen=imagen, verso=verso)
+
+
+
+
+
+
 ######## Para que corra en mi compu ########
 if __name__ == '__main__':
-    app.run(debug=True, port=7001)
+    app.run(debug=True, port=7000)
 
 
 
