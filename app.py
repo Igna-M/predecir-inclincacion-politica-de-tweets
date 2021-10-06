@@ -3,6 +3,11 @@ import pickle
 import unidecode
 import re
 
+# import pandas as pd
+# import numpy as np
+
+from nltk.corpus import stopwords
+from nltk.stem import SnowballStemmer
 
 
 # UPLOAD_FOLDER = 'static/uploads'
@@ -14,10 +19,10 @@ app = Flask(__name__)
 # app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
-with open('pickle/model.pickle', 'rb') as f:
+with open('pickle/model_stemm.pickle', 'rb') as f:
     model = pickle.load(f)
 
-with open('pickle/vectorizer.pickle', 'rb') as v:
+with open('pickle/vectorizer_stemm.pickle', 'rb') as v:
     vectorizer = pickle.load(v)
 
 
@@ -28,6 +33,44 @@ with open('pickle/model_canciones.pickle', 'rb') as f:
 with open('pickle/vectorizer_canciones.pickle', 'rb') as v:
     vectorizer_canciones = pickle.load(v)
 
+
+
+def limpiar_textos(tweet):
+    t_lower_no_accents=unidecode.unidecode(tweet.lower()); # sacamos acentos y llevamos a minuscula
+    t_lower_no_accents_no_punkt=re.sub(r'([^\s\w]|_)+','',t_lower_no_accents); # quitamos signos de puntuacion usando una regex que reemplaza todo lo q no sean espacios o palabras por un string vacio
+    t_no_new_line = t_lower_no_accents_no_punkt.replace('\n', ' ')
+    t_remove_http = re.sub(r'http\S+', '', t_no_new_line).strip()
+    x = re.sub("(.)\\1{2,}", "\\1", t_remove_http)
+    return x
+
+stopwords_es = stopwords.words("spanish")
+
+stopwords_list = []
+for word in stopwords_es:
+    clean_word = limpiar_textos(word)
+    stopwords_list.append(clean_word)
+
+stopwords_es = set(stopwords_list)
+
+
+stemmer = SnowballStemmer("spanish")
+# stopwords_en_stem = [stemmer.stem(x) for x in stopwords_es]
+# stopwords_en_uni = [stemmer.stem(unidecode.unidecode(x.lower())) for x in stopwords_es]
+
+
+
+
+# @app.route('/pruebas', methods=['POST', 'GET'])
+# def pruebas():
+    
+#     global stopwords_es
+#     global stemmer
+
+#     texto = 'Exportado al final de la primera notebook. Se agregaron y filtraron los partidos y bloques, se quitaron tweets viejos.'
+#     clean_text = ' '.join([word.lower() for word in texto.split() if word.lower() not in stopwords_es])
+#     stemm_text = ' '.join([stemmer.stem(y) for y in clean_text.split(" ")])
+
+#     return jsonify(stemm_text)
 
 
 
@@ -52,14 +95,19 @@ def predict():
 
     global vectorizer
     global model
+    global stopwords_es
+    global stemmer
 
     if request.method == 'POST':
 
         tweet = request.form['tweet']
 
-
     cleaned_tweet = limpiar_tweets(tweet)
-    pred = model.predict(vectorizer.transform([cleaned_tweet]))[0]
+
+    clean_text = ' '.join([word.lower() for word in cleaned_tweet.split() if word.lower() not in stopwords_es])
+    stemm_text = ' '.join([stemmer.stem(y) for y in clean_text.split(" ")])
+
+    pred = model.predict(vectorizer.transform([stemm_text]))[0]
     
     if pred == 0:
         bloque = 'Juntos por el Cambio'
@@ -96,6 +144,8 @@ def mean_10_tweets_predict():
 
     global vectorizer
     global model
+    global stopwords_es
+    global stemmer
 
     if request.method == 'POST':
 
@@ -109,7 +159,9 @@ def mean_10_tweets_predict():
         for j in range(len(todos_los_tweets)):
             print(todos_los_tweets[j])
             cleaned_tweet = limpiar_tweets(todos_los_tweets[j])
-            pred = model.predict(vectorizer.transform([cleaned_tweet]))[0]
+            clean_text = ' '.join([word.lower() for word in cleaned_tweet.split() if word.lower() not in stopwords_es])
+            stemm_text = ' '.join([stemmer.stem(y) for y in clean_text.split(" ")])
+            pred = model.predict(vectorizer.transform([stemm_text]))[0]
             valoracion_de_tweets.append(pred)
 
         promedio = sum(valoracion_de_tweets) / len(valoracion_de_tweets)
