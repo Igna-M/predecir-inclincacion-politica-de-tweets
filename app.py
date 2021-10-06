@@ -15,10 +15,10 @@ app = Flask(__name__)
 # app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
-with open('pickle/model_stemm.pickle', 'rb') as f:
+with open('pickle/model.pickle', 'rb') as f:
     model = pickle.load(f)
 
-with open('pickle/vectorizer_stemm.pickle', 'rb') as v:
+with open('pickle/vectorizer.pickle', 'rb') as v:
     vectorizer = pickle.load(v)
 
 
