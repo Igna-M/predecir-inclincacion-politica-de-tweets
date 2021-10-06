@@ -27,3 +27,5 @@ htmlcov/
 github/
 
 tests.py
+app_with_nltk.py
+requirements_with_nltk.txt

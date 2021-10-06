@@ -6,10 +6,6 @@ import re
 # import pandas as pd
 # import numpy as np
 
-from nltk.corpus import stopwords
-from nltk.stem import SnowballStemmer
-
-
 # UPLOAD_FOLDER = 'static/uploads'
 # pd.options.mode.chained_assignment = None  # default='warn'
 
@@ -43,21 +39,326 @@ def limpiar_textos(tweet):
     x = re.sub("(.)\\1{2,}", "\\1", t_remove_http)
     return x
 
-stopwords_es = stopwords.words("spanish")
-
-stopwords_list = []
-for word in stopwords_es:
-    clean_word = limpiar_textos(word)
-    stopwords_list.append(clean_word)
+stopwords_list = [
+    'de',
+    'la',
+    'que',
+    'el',
+    'en',
+    'y',
+    'a',
+    'los',
+    'del',
+    'se',
+    'las',
+    'por',
+    'un',
+    'para',
+    'con',
+    'no',
+    'una',
+    'su',
+    'al',
+    'lo',
+    'como',
+    'mas',
+    'pero',
+    'sus',
+    'le',
+    'ya',
+    'o',
+    'este',
+    'si',
+    'porque',
+    'esta',
+    'entre',
+    'cuando',
+    'muy',
+    'sin',
+    'sobre',
+    'tambien',
+    'me',
+    'hasta',
+    'hay',
+    'donde',
+    'quien',
+    'desde',
+    'todo',
+    'nos',
+    'durante',
+    'todos',
+    'uno',
+    'les',
+    'ni',
+    'contra',
+    'otros',
+    'ese',
+    'eso',
+    'ante',
+    'ellos',
+    'e',
+    'esto',
+    'mi',
+    'antes',
+    'algunos',
+    'que',
+    'unos',
+    'yo',
+    'otro',
+    'otras',
+    'otra',
+    'el',
+    'tanto',
+    'esa',
+    'estos',
+    'mucho',
+    'quienes',
+    'nada',
+    'muchos',
+    'cual',
+    'poco',
+    'ella',
+    'estar',
+    'estas',
+    'algunas',
+    'algo',
+    'nosotros',
+    'mi',
+    'mis',
+    'tu',
+    'te',
+    'ti',
+    'tu',
+    'tus',
+    'ellas',
+    'nosotras',
+    'vosotros',
+    'vosotras',
+    'os',
+    'mio',
+    'mia',
+    'mios',
+    'mias',
+    'tuyo',
+    'tuya',
+    'tuyos',
+    'tuyas',
+    'suyo',
+    'suya',
+    'suyos',
+    'suyas',
+    'nuestro',
+    'nuestra',
+    'nuestros',
+    'nuestras',
+    'vuestro',
+    'vuestra',
+    'vuestros',
+    'vuestras',
+    'esos',
+    'esas',
+    'estoy',
+    'estas',
+    'esta',
+    'estamos',
+    'estais',
+    'estan',
+    'este',
+    'estes',
+    'estemos',
+    'esteis',
+    'esten',
+    'estare',
+    'estaras',
+    'estara',
+    'estaremos',
+    'estareis',
+    'estaran',
+    'estaria',
+    'estarias',
+    'estariamos',
+    'estariais',
+    'estarian',
+    'estaba',
+    'estabas',
+    'estabamos',
+    'estabais',
+    'estaban',
+    'estuve',
+    'estuviste',
+    'estuvo',
+    'estuvimos',
+    'estuvisteis',
+    'estuvieron',
+    'estuviera',
+    'estuvieras',
+    'estuvieramos',
+    'estuvierais',
+    'estuvieran',
+    'estuviese',
+    'estuvieses',
+    'estuviesemos',
+    'estuvieseis',
+    'estuviesen',
+    'estando',
+    'estado',
+    'estada',
+    'estados',
+    'estadas',
+    'estad',
+    'he',
+    'has',
+    'ha',
+    'hemos',
+    'habeis',
+    'han',
+    'haya',
+    'hayas',
+    'hayamos',
+    'hayais',
+    'hayan',
+    'habre',
+    'habras',
+    'habra',
+    'habremos',
+    'habreis',
+    'habran',
+    'habria',
+    'habrias',
+    'habriamos',
+    'habriais',
+    'habrian',
+    'habia',
+    'habias',
+    'habiamos',
+    'habiais',
+    'habian',
+    'hube',
+    'hubiste',
+    'hubo',
+    'hubimos',
+    'hubisteis',
+    'hubieron',
+    'hubiera',
+    'hubieras',
+    'hubieramos',
+    'hubierais',
+    'hubieran',
+    'hubiese',
+    'hubieses',
+    'hubiesemos',
+    'hubieseis',
+    'hubiesen',
+    'habiendo',
+    'habido',
+    'habida',
+    'habidos',
+    'habidas',
+    'soy',
+    'eres',
+    'es',
+    'somos',
+    'sois',
+    'son',
+    'sea',
+    'seas',
+    'seamos',
+    'seais',
+    'sean',
+    'sere',
+    'seras',
+    'sera',
+    'seremos',
+    'sereis',
+    'seran',
+    'seria',
+    'serias',
+    'seriamos',
+    'seriais',
+    'serian',
+    'era',
+    'eras',
+    'eramos',
+    'erais',
+    'eran',
+    'fui',
+    'fuiste',
+    'fue',
+    'fuimos',
+    'fuisteis',
+    'fueron',
+    'fuera',
+    'fueras',
+    'fueramos',
+    'fuerais',
+    'fueran',
+    'fuese',
+    'fueses',
+    'fuesemos',
+    'fueseis',
+    'fuesen',
+    'sintiendo',
+    'sentido',
+    'sentida',
+    'sentidos',
+    'sentidas',
+    'siente',
+    'sentid',
+    'tengo',
+    'tienes',
+    'tiene',
+    'tenemos',
+    'teneis',
+    'tienen',
+    'tenga',
+    'tengas',
+    'tengamos',
+    'tengais',
+    'tengan',
+    'tendre',
+    'tendras',
+    'tendra',
+    'tendremos',
+    'tendreis',
+    'tendran',
+    'tendria',
+    'tendrias',
+    'tendriamos',
+    'tendriais',
+    'tendrian',
+    'tenia',
+    'tenias',
+    'teniamos',
+    'teniais',
+    'tenian',
+    'tuve',
+    'tuviste',
+    'tuvo',
+    'tuvimos',
+    'tuvisteis',
+    'tuvieron',
+    'tuviera',
+    'tuvieras',
+    'tuvieramos',
+    'tuvierais',
+    'tuvieran',
+    'tuviese',
+    'tuvieses',
+    'tuviesemos',
+    'tuvieseis',
+    'tuviesen',
+    'teniendo',
+    'tenido',
+    'tenida',
+    'tenidos',
+    'tenidas',
+    'tened'
+]
 
 stopwords_es = set(stopwords_list)
 
-
-stemmer = SnowballStemmer("spanish")
 # stopwords_en_stem = [stemmer.stem(x) for x in stopwords_es]
 # stopwords_en_uni = [stemmer.stem(unidecode.unidecode(x.lower())) for x in stopwords_es]
-
-
 
 
 # @app.route('/pruebas', methods=['POST', 'GET'])
@@ -96,7 +397,7 @@ def predict():
     global vectorizer
     global model
     global stopwords_es
-    global stemmer
+    # global stemmer
 
     if request.method == 'POST':
 
@@ -105,9 +406,9 @@ def predict():
     cleaned_tweet = limpiar_tweets(tweet)
 
     clean_text = ' '.join([word.lower() for word in cleaned_tweet.split() if word.lower() not in stopwords_es])
-    stemm_text = ' '.join([stemmer.stem(y) for y in clean_text.split(" ")])
+    # stemm_text = ' '.join([stemmer.stem(y) for y in clean_text.split(" ")])
 
-    pred = model.predict(vectorizer.transform([stemm_text]))[0]
+    pred = model.predict(vectorizer.transform([clean_text]))[0]
     
     if pred == 0:
         bloque = 'Juntos por el Cambio'
@@ -145,7 +446,7 @@ def mean_10_tweets_predict():
     global vectorizer
     global model
     global stopwords_es
-    global stemmer
+    # global stemmer
 
     if request.method == 'POST':
 
@@ -160,8 +461,8 @@ def mean_10_tweets_predict():
             print(todos_los_tweets[j])
             cleaned_tweet = limpiar_tweets(todos_los_tweets[j])
             clean_text = ' '.join([word.lower() for word in cleaned_tweet.split() if word.lower() not in stopwords_es])
-            stemm_text = ' '.join([stemmer.stem(y) for y in clean_text.split(" ")])
-            pred = model.predict(vectorizer.transform([stemm_text]))[0]
+            # stemm_text = ' '.join([stemmer.stem(y) for y in clean_text.split(" ")])
+            pred = model.predict(vectorizer.transform([clean_text]))[0]
             valoracion_de_tweets.append(pred)
 
         promedio = sum(valoracion_de_tweets) / len(valoracion_de_tweets)
